@@ -8,5 +8,4 @@ public class ShortUrl
     public DateTimeOffset? ExpiresAt { get; set; }
     public bool IsActive { get; set; }
     public int Clicks { get; set; }
-    public string? Alias { get; set; }
 }

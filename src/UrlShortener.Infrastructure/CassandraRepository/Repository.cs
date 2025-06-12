@@ -17,10 +17,10 @@ public class Repository : IRepository
 
     public async Task AddNewUrlAsync(ShortUrl entity, CancellationToken cancellationToken)
     {
-        var query = "INSERT INTO short_urls (shortcode, originalurl, createdat, expiresat, clicks, isactive, alias)"
-                    + $"VALUES (?, ?, ?, ?, ?, ?, ?)";
+        var query = "INSERT INTO short_urls (shortcode, originalurl, createdat, expiresat, clicks, isactive)"
+                    + $"VALUES (?, ?, ?, ?, ?, ?)";
         await _session.ExecuteAsync(new SimpleStatement(query,
-            entity.ShortCode, entity.OriginalUrl, entity.CreatedAt,  entity.ExpiresAt, entity.Clicks, entity.IsActive, entity.Alias));
+            entity.ShortCode, entity.OriginalUrl, entity.CreatedAt,  entity.ExpiresAt, entity.Clicks, entity.IsActive));
     }
 
     public async Task AddClicksInformationAsync(UrlClick newClickInformation, CancellationToken cancellationToken)

@@ -47,8 +47,7 @@ public class SessionFactory
             createdAt timestamp,
             expiresAt timestamp,
             isActive boolean,
-            clicks int,
-            alias text
+            clicks int
         );"));
         
         session.Execute(new SimpleStatement(

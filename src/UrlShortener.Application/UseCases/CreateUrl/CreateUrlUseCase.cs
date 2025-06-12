@@ -30,16 +30,15 @@ public class CreateUrlUseCase : ICreateUrlUseCase
         
         var newUrl = new ShortUrl
         {
-            ShortCode = _base62Manager.ToBase62(
-                new Snowflake(_snowFlakeSettings)
-                    .NextID())
-                    [..8],
+            ShortCode = command.Alias ?? _base62Manager.ToBase62(
+                                    new Snowflake(_snowFlakeSettings)
+                                        .NextID())
+                                        [..8],
             OriginalUrl = command.OriginalUrl,
             CreatedAt = DateTimeOffset.UtcNow,
             ExpiresAt = command.ExpiredAt,
             IsActive = true,
-            Clicks = 0,
-            Alias = command.Alias,
+            Clicks = 0
         };
 
         await _repository.AddNewUrlAsync(newUrl, cancellationToken);
