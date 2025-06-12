@@ -19,7 +19,7 @@ public class Repository : IRepository
     {
         var checkExistsQuery = "SELECT * FROM short_urls WHERE shortcode = ?";
         var rows = await _session.ExecuteAsync(new SimpleStatement(checkExistsQuery, entity.ShortCode));
-        if (rows is not null)
+        if (rows.FirstOrDefault() is not null)
             throw new UrlAlreadyExistsException($"URL {entity.ShortCode} is already exists");
         var query = "INSERT INTO short_urls (shortcode, originalurl, createdat, expiresat, clicks, isactive)"
                     + $"VALUES (?, ?, ?, ?, ?, ?)";

@@ -19,10 +19,10 @@ public class CreateUrlCommandValidator : AbstractValidator<CreateUrlCommand>
             .Matches(
                 "^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]{2,}([\\/\\w\\-.?=&%+]*)?$")
             .WithErrorCode(ValidationError.Invalid);
-        RuleFor(r => r.Alias)
-            .NotEmpty().Length(8)
-            .WithErrorCode(ValidationError.Invalid);
-            
+        RuleFor(x => x.Alias)
+            .Length(8)
+            .When(x => x.Alias != null)
+            .WithMessage("Должно быть ровно 8 символов, если задано.");
     }
     
 }

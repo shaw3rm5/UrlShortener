@@ -27,13 +27,18 @@ public class CreateUrlUseCase : ICreateUrlUseCase
     public async Task<ShortUrl> ExecuteAsync(CreateUrlCommand command, CancellationToken cancellationToken)
     {
         await _validator.ValidateAndThrowAsync(command, cancellationToken);
+
+        string shortCode;
+        if (command.Alias is null)
+            shortCode = _base62Manager.ToBase62(
+                    new Snowflake(_snowFlakeSettings)
+                        .NextID())[..8];
+        else
+            shortCode = command.Alias;
         
         var newUrl = new ShortUrl
         {
-            ShortCode = command.Alias ?? _base62Manager.ToBase62(
-                                    new Snowflake(_snowFlakeSettings)
-                                        .NextID())
-                                        [..8],
+            ShortCode =  shortCode,
             OriginalUrl = command.OriginalUrl,
             CreatedAt = DateTimeOffset.UtcNow,
             ExpiresAt = command.ExpiredAt,

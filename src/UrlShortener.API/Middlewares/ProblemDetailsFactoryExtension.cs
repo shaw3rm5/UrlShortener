@@ -36,6 +36,7 @@ public static class ProblemDetailsFactoryExtension
             StatusCodes.Status400BadRequest,
             "Invalid Request", detail: validationException.Message);
     }
+    
     public static ProblemDetails CreateFrom(
         this ProblemDetailsFactory factory,
         HttpContext httpContext,
