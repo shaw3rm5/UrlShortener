@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using UrlShortener.Application.Exceptions;
+using UrlShortener.Infrastructure.Exceptions;
 
 namespace UrlShortener.API.Middlewares;
 
@@ -33,6 +34,10 @@ public class ErrorHandlingMiddleware
                     break;
                 case ApplicationLayerException applicationException:
                     problemDetails = problemDetailsFactory.CreateFrom(context, applicationException);
+                    break;
+                case DataAccessException dataAccessException:
+                    problemDetails =
+                        problemDetailsFactory.CreateFrom(context, dataAccessException);
                     break;
                 default:
                     problemDetails = problemDetailsFactory.CreateProblemDetails(

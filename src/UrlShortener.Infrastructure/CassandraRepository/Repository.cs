@@ -17,6 +17,10 @@ public class Repository : IRepository
 
     public async Task AddNewUrlAsync(ShortUrl entity, CancellationToken cancellationToken)
     {
+        var checkExistsQuery = "SELECT * FROM short_urls WHERE shortcode = ?";
+        var rows = await _session.ExecuteAsync(new SimpleStatement(checkExistsQuery, entity.ShortCode));
+        if (rows is not null)
+            throw new UrlAlreadyExistsException($"URL {entity.ShortCode} is already exists");
         var query = "INSERT INTO short_urls (shortcode, originalurl, createdat, expiresat, clicks, isactive)"
                     + $"VALUES (?, ?, ?, ?, ?, ?)";
         await _session.ExecuteAsync(new SimpleStatement(query,

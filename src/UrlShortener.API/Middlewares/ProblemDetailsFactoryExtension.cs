@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using UrlShortener.Application.Exceptions;
+using UrlShortener.Infrastructure.Exceptions;
 
 namespace UrlShortener.API.Middlewares;
 
@@ -34,5 +35,17 @@ public static class ProblemDetailsFactoryExtension
         return factory.CreateValidationProblemDetails(httpContext, modelStateDictionary,
             StatusCodes.Status400BadRequest,
             "Invalid Request", detail: validationException.Message);
+    }
+    public static ProblemDetails CreateFrom(
+        this ProblemDetailsFactory factory,
+        HttpContext httpContext,
+        DataAccessException dataAccessException)
+    {
+        return factory.CreateProblemDetails(
+            httpContext,
+            statusCode: StatusCodes.Status404NotFound,
+            detail: dataAccessException.Message,
+            instance: httpContext.Request.Path
+        );
     }
 }
