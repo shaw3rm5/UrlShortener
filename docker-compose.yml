@@ -1,0 +1,18 @@
+version: '3.8'
+
+volumes:
+  url-cassandra:
+
+services:
+  cassandra: 
+    image: cassandra:4.1
+    container_name: cassandraDb
+    ports:
+      - "9042:9042"
+    environment:
+      CASSANDRA_CLUSTER_NAME: 'Cluster'
+      CASSANDRA_DC: "DC1"
+      CASSANDRA_RACK: "RAC1"
+      CASSANDRA_ENDPOINT_SNITCH: "GossipingPropertyFileSnitch"
+    volumes:
+      - url-cassandra:/var/lib/cassandra  

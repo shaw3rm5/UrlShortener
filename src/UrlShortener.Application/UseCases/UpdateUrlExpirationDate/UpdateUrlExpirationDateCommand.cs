@@ -1,0 +1,3 @@
+namespace UrlShortener.Application.UseCases.UpdateUrlExpirationDate;
+
+public record UpdateUrlExpirationDateCommand(string ShortUrl, DateTimeOffset ExpirationDate);
