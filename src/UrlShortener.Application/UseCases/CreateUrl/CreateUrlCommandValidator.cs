@@ -19,6 +19,10 @@ public class CreateUrlCommandValidator : AbstractValidator<CreateUrlCommand>
             .Matches(
                 "^(https?:\\/\\/)?([\\w\\-]+\\.)+[\\w\\-]{2,}([\\/\\w\\-.?=&%+]*)?$")
             .WithErrorCode(ValidationError.Invalid);
+        RuleFor(r => r.Alias)
+            .NotEmpty().Length(8)
+            .WithErrorCode(ValidationError.Invalid);
+            
     }
     
 }
