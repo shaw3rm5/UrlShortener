@@ -21,8 +21,8 @@ public class CreateUrlCommandValidator : AbstractValidator<CreateUrlCommand>
             .WithErrorCode(ValidationError.Invalid);
         RuleFor(x => x.Alias)
             .Length(8)
-            .When(x => x.Alias != null)
-            .WithMessage("Должно быть ровно 8 символов, если задано.");
+            .When(x => !string.IsNullOrWhiteSpace(x.Alias))
+            .WithErrorCode(ValidationError.Invalid);
     }
     
 }

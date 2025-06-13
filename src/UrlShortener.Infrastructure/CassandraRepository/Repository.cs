@@ -22,7 +22,7 @@ public class Repository : IRepository
         if (rows.FirstOrDefault() is not null)
             throw new UrlAlreadyExistsException($"URL {entity.ShortCode} is already exists");
         var query = "INSERT INTO short_urls (shortcode, originalurl, createdat, expiresat, clicks, isactive)"
-                    + $"VALUES (?, ?, ?, ?, ?, ?)";
+                    + $"VALUES (?, ?, ?, ?, ?, ?) IF NOT EXISTS";
         await _session.ExecuteAsync(new SimpleStatement(query,
             entity.ShortCode, entity.OriginalUrl, entity.CreatedAt,  entity.ExpiresAt, entity.Clicks, entity.IsActive));
     }
